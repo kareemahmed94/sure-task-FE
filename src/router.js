@@ -1,42 +1,38 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import NotFound from './views/NotFound.vue'
-import Preview from './views/Preview.vue'
-import Tutorial from './views/Tutorial.vue'
-import Login from './pages/Login.vue'
 
 Vue.use(Router)
+
+function loadView(view) {
+  return () => import(`./pages/${view}.vue`);
+}
 
 export default new Router({
   mode: 'history',
   routes: [
     {
       path: '/',
-      redirect: { name: 'tutorial' }
+      name: 'home',
+      component: loadView('Index'),
+      meta: {
+        auth: true
+      }
     },
     {
       path: '/login',
       name: 'login',
-      component: Login
+      component: loadView('Login'),
+      meta: {
+        auth: false
+      }
     },
     {
-      path: '/not-found',
-      name: 'not-found',
-      component: NotFound
+      path: '/register',
+      name: 'register',
+      component: loadView('Register'),
+      meta: {
+        auth: false
+      }
     },
-    {
-      path: '/preview',
-      name: 'preview',
-      component: Preview
-    },
-    {
-      path: '/tutorial',
-      name: 'tutorial',
-      component: Tutorial
-    },
-    {
-      path: '*',
-      redirect: { name: 'not-found' }
-    }
   ]
 })

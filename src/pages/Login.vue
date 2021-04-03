@@ -3,7 +3,7 @@
   <div>
     <v-app>
       <main>
-        <v-container fluid fill-height class="loginOverlay">
+        <v-container fluid fill-height class="loginOverlay form">
           <v-layout flex align-center justify-center>
             <v-flex xs12 sm4 elevation-6>
               <v-toolbar class="pt-5 blue darken-4">
@@ -25,7 +25,6 @@
                           label="Enter your password"
                           v-model="form.password"
                           min="8"
-                          :append-icon="e1 ? 'visibility' : 'visibility_off'"
                           :append-icon-cb="() => (e1 = !e1)"
                           :type="e1 ? 'password' : 'text'"
                           :rules="passwordRules"
@@ -45,15 +44,6 @@
             </v-flex>
           </v-layout>
         </v-container>
-        <a href="https://unsplash.com/photos/i6Wc5qZO5MQ" target="_blank">
-          <v-card class="photoCredit teal">
-            <v-card-title>
-              <div class="white--text">
-                Photo by Tatyana Dobreva on Unsplash
-              </div>
-            </v-card-title>
-          </v-card>
-        </a>
       </main>
     </v-app>
     <v-snackbar
@@ -128,4 +118,7 @@ export default {
 </script>
 
 <style scoped>
+  .form {
+    margin-top: 5%;
+  }
 </style>
