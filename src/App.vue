@@ -1,18 +1,27 @@
 <template>
   <v-app>
-    <v-main>
-      <router-view/>
-    </v-main>
+
+
+    <dashboard-core-view />
+
   </v-app>
 </template>
 
 <script>
+import DashboardCoreSettings from '@/components/core/Settings'
+import DashboardCoreView from '@/components/core/View'
 
 export default {
-  name: 'App',
+  name: 'DashboardIndex',
+
+  components: {
+
+    DashboardCoreSettings,
+    DashboardCoreView
+  },
 
   data: () => ({
-    //
+    expandOnHover: false,
   }),
-};
+}
 </script>

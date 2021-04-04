@@ -1,21 +1,20 @@
 import Vue from 'vue'
-import PrismicVue from 'prismic-vue'
-import linkResolver from './prismic/link-resolver'
-import htmlSerializer from './prismic/html-serializer'
 import App from './App.vue'
 import router from './router'
+import store from './store/index'
 import vuetify from './plugins/vuetify';
-
+import http from './http'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 Vue.config.productionTip = false
 
-Vue.use(PrismicVue, {
-  endpoint: window.prismic.endpoint,
-  linkResolver,
-  htmlSerializer
-})
+Vue.use(VueAxios, axios)
+
 
 new Vue({
-  router,
   vuetify,
+  http: http,
+  store: store,
+  router: router,
   render: h => h(App)
 }).$mount('#app')

@@ -14,7 +14,7 @@
               <v-card>
                 <v-card-text class="pt-4">
                   <div>
-                    <v-form v-model="valid" ref="form">
+                    <v-form v-model="valid" ref="loginForm">
                       <v-text-field
                           label="Enter your e-mail address"
                           v-model="form.email"
@@ -25,16 +25,15 @@
                           label="Enter your password"
                           v-model="form.password"
                           min="8"
-                          :append-icon-cb="() => (e1 = !e1)"
-                          :type="e1 ? 'password' : 'text'"
+                          :type="'password'"
                           :rules="passwordRules"
-                          counter
                           required
                       ></v-text-field>
                       <v-layout justify-space-between>
                         <v-btn @click="login" :class=" { 'blue darken-4 white--text' : valid, disabled: !valid }">
                           Login
                         </v-btn>
+                        <router-link to="/register">new user ?</router-link>
                         <a href="">Forgot Password</a>
                       </v-layout>
                     </v-form>
@@ -58,13 +57,16 @@
 
 <script>
 //eslint-disable-line
+import {AUTH_REQUEST} from "@/store/actions/auth";
+
 export default {
   name: 'Login',
   data() {
     return {
+      valid:true,
       form: {
-        email: 'admin@example.com',
-        password: 'admin',
+        email: '',
+        password: '',
         remember: false,
       },
       passwordRules: [
@@ -73,7 +75,6 @@ export default {
       message: false,
       message_type: "success",
       message_content: "",
-      email: '',
       emailRules: [
         (v) => !!v || 'E-mail is required',
       ],
@@ -84,33 +85,34 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$auth.redirect());
   },
   methods: {
     errors(res) {
       this.form.errors = Object.fromEntries(res.data.errors.map(item => [item.field, item.msg]));
     },
     login() {
-      this.$auth
-          .login({
-            body: this.form.body,
-            data: this.form.body,
-            remember: this.form.remember,
-          })
-          .then((res) => {
-            if (res.data.status === 200) {
-              this.$router.push({name: 'home'});
-            } else {
-              this.message_type = "error"
-              this.message_content = res.data.message
-              this.message = true
-            }
-          }, (res) => {
-            this.errors(
-                res.response || // Axios
-                res             // VueResource
-            );
-          })
+      if (this.$refs.loginForm.validate()) {
+        const data = this.form
+        this.axios.post('auth/login', data).then(response => {
+          if (response.data.status === 200) {
+            localStorage.setItem("jwt", response.data.token);
+            localStorage.setItem("is_v", true);
+            this.$router.go()
+            this.message = true
+            this.message_type = 'success'
+            this.message_content = response.data.message
+          } else {
+            this.message = true
+            this.message_type = 'error'
+            this.message_content = response.data.message
+          }
+        }).catch(response => {
+        })
+        return 1
+      }
+      this.message = true
+      this.message_type = 'error'
+      this.message_content = 'Please fill the form'
     },
   }
 }
