@@ -1,9 +1,5 @@
 <template>
   <div>
-    <dashboard-core-app-bar/>
-
-    <dashboard-core-drawer/>
-
     <div style="margin-top: 10%"></div>
     <v-container
         id="regular-tables"
@@ -38,7 +34,7 @@
           <td>{{ user.name }}</td>
           <td>{{ user.email }}</td>
           <td class="text-right">
-            <router-link :to="`/users/edit/${user.id}`">edit</router-link>
+            <v-btn color="green" dark @click="$router.push(`/users/edit/${user.id}`)">edit</v-btn>
           </td>
           <td class="text-right">
             <v-btn color="red" dark @click="deleteUser(index,user.id)">Delete</v-btn>
@@ -50,7 +46,13 @@
 
 
     </v-container>
-
+    <v-snackbar
+        v-model="message"
+        :color="message_type"
+        :vertical="true"
+    >
+      {{ message_content }}
+    </v-snackbar>
   </div>
 </template>
 
@@ -69,6 +71,9 @@ export default {
 
   data: () => ({
     users: [],
+    message: false,
+    message_type: "success",
+    message_content: "",
   }),
   created() {
     this.getUsers()
@@ -81,6 +86,9 @@ export default {
     },
     deleteUser(index,id) {
       this.axios.delete(`users/${id}`).then(response => {
+        this.message = true
+        this.message_type = 'success'
+        this.message_content = response.data.message
         this.$delete(this.users, index)
       })
     }

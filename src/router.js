@@ -6,6 +6,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Index'
 import Users from './pages/users/Index'
+import Verify from './pages/Verify'
 import EditUsers from './pages/users/Edit'
 Vue.use(Router)
 
@@ -47,19 +48,27 @@ export default new Router({
       path: '/users',
       name: 'users',
       component: Users,
+      beforeEnter: auth,
       meta: {
         auth: true,
-        middleware: auth
-
+      }
+    },
+    {
+      path: '/verify',
+      name: 'verify',
+      component: Verify,
+      beforeEnter: checkUser,
+      meta: {
+        auth: false,
       }
     },
     {
       path: '/users/edit/:id',
       name: 'users-edit',
       component: EditUsers,
+      beforeEnter: auth,
       meta: {
         auth: true,
-        middleware: auth
       }
     },
   ]

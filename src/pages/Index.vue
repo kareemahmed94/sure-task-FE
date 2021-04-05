@@ -1,8 +1,6 @@
 <template>
   <div>
-    <dashboard-core-app-bar />
 
-    <dashboard-core-drawer />
   </div>
 </template>
 

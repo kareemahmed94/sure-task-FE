@@ -36,10 +36,14 @@
         </v-list-item-avatar>
 
         <v-list-item-content>
-          <v-list-item-title
-            class="text-h6"
-            v-text="profile.title"
-          />
+          <router-link to="/" style="color: white;text-decoration: none;">
+            <v-list-item-title
+                class="text-h6"
+                v-text="profile.title"
+            />
+
+          </router-link>
+
 
         </v-list-item-content>
       </v-list-item>
@@ -58,7 +62,7 @@
       <template>
 
         <v-list-item
-        ><router-link to="/users">
+        ><router-link to="/users" style="color: white;text-decoration: none;">
           Users
         </router-link></v-list-item>
       </template>

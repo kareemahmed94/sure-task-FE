@@ -104,6 +104,7 @@ export default {
         this.axios.post('register', data).then(response => {
           if (response.data.status === 200) {
             localStorage.setItem("jwt", response.data.token);
+            localStorage.setItem("email", this.form.email);
             this.$router.push('verify')
             this.message = true
             this.message_type = 'success'

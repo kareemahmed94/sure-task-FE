@@ -1,9 +1,5 @@
 <template>
   <div>
-    <dashboard-core-app-bar/>
-
-    <dashboard-core-drawer/>
-
     <div style="margin-top: 10%"></div>
     <v-container
         id="regular-tables"
@@ -96,7 +92,8 @@ export default {
     },
     updateUser() {
       if (this.$refs.updateForm.validate()) {
-        this.axios.patch(`users/update/${this.$route.params.id}` , this.user).then(response => {
+        this.axios.patch(`users/update/${this.$route.params.id}` , this.user)
+            .then(response => {
           this.message = true
           this.message_type = 'success'
           this.message_content = response.data.message
